@@ -10,7 +10,8 @@
     
 \setlength{\parskip}{1em}
 \begin{frame}
-    \title{Linear Smoothers}
+    \title{Linear Smoothers I}
+    \subtitle{First examples and basic properties}
     \date{DATA 607 --- Session 1 --- 25/02/2019}
     \maketitle
 \end{frame}
@@ -385,4 +386,41 @@ In practice, $K$ is usually $5$ (\texttt{sklearn}'s default) or $10$.
     $n$-fold cross validation, $n$ being the size of the dataset.
 \end{frame}
 
+\begin{frame}{\textsc{Binary Classification}}
+    
+    Regression:
+    \[
+        Y_i = r(x_i) + \epsilon_i
+    \]
+    
+    Binary classification:
+    \[
+        Y_i = r(x_i) \in\{0,1\}
+    \]
+    
+    Want $\hat r$ to be $\{0,1\}$-valued, too.
+
+    If $w_i(x)\geq 0$ and $\sum_i w_i(x)=1$ for all $x$,
+    \[
+        \hat r(x) = d\left(\sum_{i=1}^nw_i(x)Y_i\right) \in \{0,1\}
+    \]
+    for any \emph{decision function} $d:[0,1]\to\{0,1\}$.
+
+    Most common: $d(x)=\One_{[1/2, 1]}(x)$ or $d(x) = \One_{[\alpha, 1]}(x)$.
+\end{frame}
+
+\begin{frame}{\textsc{Loss and risk}}
+    \[
+        L(\hat r(x), r(x)) = |\hat r(x) - r(x)| = \begin{cases}
+            1&\text{if $\hat r(x) = r(x)$},\\ 0&\text{if $\hat r(x)\neq r(x)$}
+        \end{cases}
+    \]
+    \[
+        R(\hat r(x), r(x)) = \EE[L(\hat r(x), r(x))]
+    \]
+    \[
+        R(\hat r, r) = \int R(\hat r(x), r(x))\,dx
+    \]
+    
+\end{frame}
 \end{document}
