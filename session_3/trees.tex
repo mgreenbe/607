@@ -1,0 +1,145 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+
+\input{../../../../texmacros/commands.tex}
+
+\usetheme{Madrid}
+
+\DeclareMathOperator{\RSS}{RSS}
+\DeclareMathOperator*{\Argmin}{argmin}
+
+\begin{document}
+    
+\setlength{\parskip}{1em}
+\begin{frame}
+    \title{Tree-based methods for classification and regression}
+    \date{DATA 607 --- Session 3 --- 04/03/2019}
+    \maketitle
+\end{frame}
+
+
+\begin{frame}{Regression trees}
+    Dataset: $(\vx_1,y_1), (\vx_2, y_2),\ldots, (\vx_n, \vy_n)$, where $x_i\in R\subseteq\RR^p$ and $y_i\in\RR$
+
+    \textbf{Regression tree construction:}
+    \begin{itemize}
+        \item Divide the predictor space, $R$, into disjoint regions, $R_1,\ldots,R_J$
+        \item If a new observation, $\vx$, falls into region $R_j$, set
+        $\hat r(\vx)$ equal to the average $y_i$ such that $x_i\in R_j$.
+    \end{itemize}
+
+    How do we subdivide the predictor space? \textbf{recursive bisection}
+
+    Given an index $j$ and a \emph{cutpoint} $s\in\RR$,
+    bisect $R$ into two pieces:
+    \[
+        R_{0} = \{\vx\in R : x_{j} \leq s\},\qquad
+        R_{1} = \{\vx\in R : x_{j} > s\}
+    \]
+
+    Then bisect $R_{0}$ and $R_{1}$...
+\end{frame}
+
+\begin{frame}{}
+    Given an index $j_{0}$ and a cutpoint $s_{0}\in\RR$,
+    bisect $R_{00}$ into two pieces:
+    \[
+        R_{00} = \{\vx\in R_{0} : x_{j_{0}} \leq s_{0}\},\qquad
+        R_{01} = \{\vx\in R_{0} : x_{j_{0}} > s_{0}\}.
+    \]
+
+    Given an index $j_{1}$ and a cutpoint $s_{1}\in\RR$,
+    bisect $R_{01}$ into two pieces:
+    \[
+        R_{10} = \{\vx\in R_{1} : x_{j_{1}} \leq s_{1}\},\qquad
+        R_{11} = \{\vx\in R_{1} : x_{j_{1}} > s_{1}\}
+    \]
+
+    Then bisect $R_{00}$, $R_{01}$, $R_{01}$, and $R_{10}$...
+
+    Etc...
+\end{frame}
+
+\begin{frame}{}
+    \textbf{Questions:}
+    \begin{enumerate}
+        \item How do we find the indices $j$, $j_0$, $j_1$, $\ldots$
+        and the cutpoints $s$, $s_0$, $s_1$, $\ldots$?
+        \item When do we stop?
+    \end{enumerate}
+
+    \textbf{Answers:}
+    \begin{enumerate}
+        \item For each pair $(j, s)$, let $\Var^-(j, s)$ and $\Var^+(j, s)$ be the variances of
+        \[
+            \{y_i : x_{i,j} \leq s\}\quad\text{and}\quad
+            \{y_i : x_{i,j} > s\},
+        \]
+        respectively.
+    
+        Take $(j, s)$ to be the pair that \emph{minimizes the total variance},
+        \[
+            \Var^-(j, s) + \Var^+(j, s).
+        \]
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{}
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item Don't bisect a region if the number of training points it contains is smaller than some threshold.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Classification trees}
+    Dataset $(\vx_1,y_1), (\vx_2, y_2),\ldots, (\vx_n, \vy_n)$, where 
+    \[
+    x_i\in R\subseteq\RR^p,\quad y_i\in\{1,\ldots,K\}.
+    \]
+    \textbf{Classification tree construction:}
+    \begin{itemize}
+        \item Divide the predictor space, $R$, into disjoint regions, $R_1,\ldots,R_J$
+        \item If a new observation, $\vx$, falls into region $R_j$, set
+        $\hat r(\vx)$ equal to most common class label, $y_i$, for which $x_i\in R_j$.
+    \end{itemize}
+
+    Partition $R$ via the same recusrive bisection procedure described for
+    regression trees, except we replace the variance minimization criterion
+    with one more suited to categorical response variables.
+\end{frame}
+
+\begin{frame}{}
+    To bisect a region, $R$:
+
+    For class labels $k$, indices $j$, and cutpoints $s$, let
+    \begin{align*}
+        \hat p_k(j, s) &= \frac{|\{i : x_i\in R,\, y_i=k\}|}{|\{i : x_i\in R\}|}\\
+        G(j, s) &= \sum_{k=1}^K \hat p_k(j, s)(1 - \hat p_k(j, s)) &&\text{(Gini index)}\\
+        D(j, s) &= -\sum_{k=1}^K \hat p_k(j, s)\log \hat p_k(j, s) &&\text{(cross entropy)}
+    \end{align*}
+
+    Choose $(j, s)$ to minimize either $G(j, s)$ or $D(j, s)$.
+
+    Gini index and cross entropy are examples of \emph{(im)purity measures}.
+\end{frame}
+
+\begin{frame}{Bagging}
+    Decision tree regression and classification suffer from high variance,
+    in the sense that variance among trees fitted with different training
+    subsets of the same dataset will be quite high.
+    
+    We can bring down this variance by \emph{bagging}
+    (\textbf{B}ootstrap \textbf{AGG}regat\textbf{ING}):
+
+    \begin{itemize}
+        \item Generate $B$ bootstrapped samples from your dataset.
+        \item For each $b\in B$, fit a decision tree to $b$ to get
+        a regression function, $\hat r_b$.
+        \item Let $\hat r(\vx)$ be the average of the $\hat r_b(\vx)$, in the case of continuous response, or the most commonly occuring class label among the $\hat r_b(\vx)$, in the case of a categorical response variable.
+    \end{itemize}
+    
+
+\end{frame}
+
+\end{document}

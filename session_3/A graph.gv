@@ -1,0 +1,8 @@
+graph "A graph" {
+	u
+	v
+	w
+	u -- v
+	v -- w
+	w -- u
+}
