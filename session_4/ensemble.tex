@@ -1,0 +1,85 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+
+\input{../../../../texmacros/commands.tex}
+
+\usetheme{Madrid}
+
+\DeclareMathOperator{\RSS}{RSS}
+\DeclareMathOperator*{\Argmin}{argmin}
+\DeclareMathOperator*{\Argmax}{argmax}
+
+\begin{document}
+    
+\setlength{\parskip}{1em}
+\begin{frame}
+    \title{Ensemble methods for classification and regression}
+    \date{DATA 607 --- Session 4 --- 06/03/2019}
+    \maketitle
+\end{frame}
+
+\begin{frame}{Ensemble learning}
+    Improve accuracy of a regressor by constructing $N \gg 0$ regression functions $\hat{r}_i$, for the same dataset, and setting
+    \[
+        \hat r(x) = \frac1N\sum_i\hat r_i(x).
+    \]
+
+    Improve accuracy of a classifier by constructing $N \gg 0$ different classification functions, $\hat r_i$, for the same dataset, and setting
+    \[
+        \hat r(x) = \Argmax_{k=1,\ldots,K} \big|\{i : \hat r_i(x) = k\}\big|.
+    \]
+\end{frame}
+
+\begin{frame}{Resampling via Bootstrap Sampling}
+    We make different decision trees from the same dataset by resampling --
+    sampling from our sample (i.e., our dataset).
+
+    Similar, in spirit, to splitting a sample into training and testing subsets,
+    or into folds for cross validation.
+
+    We use bootstrap samples.
+
+    A \textbf{bootstrap sample} from a dataset $D$ of size $n$ is a dataset $D'$ constructed by
+    selecting $n$ elements from $D$, \emph{with replacement}.
+    It's almost certain that $D'$ will contain the same observations multiple times.
+
+    We expect $D'$ to contain a proportion $1-1/e\approx 0.632$ of the elements of $D$.
+
+    \textbf{Example:} $\{x_1, x_2, x_1, x_3\}$ is a bootstrapped sample from $\{x_1, x_2, x_3, x_4\}$.
+\end{frame}
+
+\begin{frame}{Bagging Classifiers}
+    Bagging is short for \textbf{B}ootstrap \textbf{AGG}regat\textbf{ING}.
+    It's also reasonable because, loosely speaking, you're using a ``bag'' of classifiers.
+
+    \textbf{Procedure:}
+    \begin{enumerate}
+        \item Draw $N\gg 0$ bootstrap samples $D_1,\ldots,D_n$ from your dataset, $D$.
+        \item Train a regressor/classifier, $\hat r_i$, on each $D_i$.
+        \item To predict the target value for a new observation, $x$:
+
+        $\bullet$ average the $\hat r_i(x)$ in the regression case.
+        
+        $\bullet$ assign the most common class label among the $\hat r_i(x)$ in the classification case.            
+    \end{enumerate}
+
+    This technique can be applied to any regressor or classifier, but is most useful for those that have high variance, i.e., that have tend to overfit. Decision trees, for example.
+    (Finding a toy dataset that makes this point isn't so easy, though!)
+\end{frame}
+
+\begin{frame}{Random forests}
+    Highly correlated predictors can lead to instability and overfitting. They also limit the effectiveness of bagging the bagged estimates will inherit the correlation.
+
+    Random forests is an ensemble technique that uses a simple --- but effective --- trick to mitigate this issue.
+
+    \textbf{Procedure:}
+    \begin{enumerate}
+        \item Draw $N\gg 0$ bootstrap samples $D_1,\ldots,D_n$ from your dataset, $D$.
+        \item Train a regressor/classifier, $\hat r_i$, on each $D_i$, using only a random sample of $m\approx \sqrt p$ of the $p$ features.
+        \item Predict target values for new observations just like for bagging.
+    \end{enumerate}
+
+ 
+\end{frame}
+\end{document}
