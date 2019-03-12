@@ -1,15 +1,16 @@
 \documentclass{beamer}
 
-\usepackage{graphicx}
+\usepackage{graphicx, amsmath, amssymb}
 
-\input{../../../../texmacros/commands.tex}
+% \input{../../../../texmacros/commands.tex}
 
 \newcommand{\vu}{\boldsymbol{u}}
 \newcommand{\vv}{\boldsymbol{v}}
-\renewcommand{\vw}{\boldsymbol{w}}
-\renewcommand{\vx}{\boldsymbol{x}}
+\newcommand{\vw}{\boldsymbol{w}}
+\newcommand{\vx}{\boldsymbol{x}}
 \newcommand{\vzero}{\boldsymbol{0}}
 
+\newcommand{\RR}{\mathbb{R}}
 
 \usetheme{Madrid}
 
@@ -18,7 +19,7 @@
 \DeclareMathOperator*{\Argmax}{argmax}
 
 \begin{document}
-    
+
 \setlength{\parskip}{1em}
 \begin{frame}
     \title{Linear separation and feature maps}
@@ -38,16 +39,16 @@
         \end{bmatrix},\quad
         \vv=\begin{bmatrix}
             v_1\\v_2
-        \end{bmatrix}\in\RR^2,\quad 
+        \end{bmatrix}\in\RR^2,\quad
         \vv\neq \vzero=\begin{bmatrix}
             0\\0
-        \end{bmatrix}. 
+        \end{bmatrix}.
     \]
 
     Note that $\vu=\vu + 0\vv\in L_{\vu, \vv}$.
 
     $L_{\vu, \vv}$ is called the line through $\vu$ with \underline{direction vector} $\vv$.
-    
+
     \begin{itemize}
         \item $\vu'\in L_{\vu, \vv} \Longrightarrow L_{\vu', \vv}=L_{\vu', \vv}$
         \item $\vv'=c\vv,\; c\in\RR,\; c\neq 0 \Longrightarrow L_{\vu, \vv'}=L_{\vu, \vv}$
@@ -68,8 +69,8 @@
     $\vu$ and $\vv$ are \underline{orthogonal} or \underline{perpendicular}.
 
     $\vw$ is a \underline{normal vector} to $L_{\vu, \vv}$ if $\vv\cdot\vw = 0$.
-    
-    
+
+
 \end{frame}
 
 \begin{frame}{Lines in $\RR^2$: Half-planes and sides}
@@ -111,7 +112,7 @@
 
     \textbf{Not all datasets are linearly separable:} The dataset
     \[
-        D := \Big\{\big((0, 0), 0\big), \big((1, 0), 1\big), 
+        D := \Big\{\big((0, 0), 0\big), \big((1, 0), 1\big),
         \big((1, 1), 0\big), \big((0, 1), 1\big) \Big\}
     \]
     is not linearly separable.
@@ -126,7 +127,7 @@
     \]
 
 
-    
+
 \end{frame}
 
 \begin{frame}{Finding linear separators}
@@ -159,7 +160,7 @@
 \end{frame}
 
 \begin{frame}{}
-    
+
     ...or, equivalently, if and only if
     \[
         \Big(y_i = -1\quad\text{and}\quad \vw\cdot\vx_i >0\Big)
@@ -198,7 +199,7 @@
         \quad\text{or}\quad
         \Big(y_i = +1\quad\text{and}\quad \vw\cdot\vx_i >0\Big),
     \]
-    in which case $y_i(\vw\cdot\vx_i)>0$ and 
+    in which case $y_i(\vw\cdot\vx_i)>0$ and
     \[
          -y_i(\vw\cdot\vx_i) < 0.
     \]
@@ -217,7 +218,7 @@
         \quad\text{or}\quad
         \Big(y_i = +1\quad\text{and}\quad \vw\cdot\vx_i <0\Big),
     \]
-    in which case $y_i(\vw\cdot\vx_i)<0$ and 
+    in which case $y_i(\vw\cdot\vx_i)<0$ and
     \[
          -y_i(\vw\cdot\vx_i) > 0.
     \]
@@ -248,5 +249,9 @@
     \]
 \end{frame}
 
-
+\begin{frame}{The Perceptron Algrorithm}
+    \[
+        D = \big\{P_1=(\vx_1, y_1),\ldots,P_n=(\vx_n, y_n)\big\}
+    \]
+\end{frame}
 \end{document}
