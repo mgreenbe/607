@@ -1,0 +1,252 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+
+\input{../../../../texmacros/commands.tex}
+
+\newcommand{\vu}{\boldsymbol{u}}
+\newcommand{\vv}{\boldsymbol{v}}
+\renewcommand{\vw}{\boldsymbol{w}}
+\renewcommand{\vx}{\boldsymbol{x}}
+\newcommand{\vzero}{\boldsymbol{0}}
+
+
+\usetheme{Madrid}
+
+\DeclareMathOperator{\RSS}{RSS}
+\DeclareMathOperator*{\Argmin}{argmin}
+\DeclareMathOperator*{\Argmax}{argmax}
+
+\begin{document}
+    
+\setlength{\parskip}{1em}
+\begin{frame}
+    \title{Linear separation and feature maps}
+    \date{DATA 607 --- Session 5 --- 11/03/2019}
+    \maketitle
+\end{frame}
+
+\begin{frame}{Lines in $\RR^2$: Direction vectors}
+    A \underline{line in $\RR^2$} is a set of points of the form
+    \[
+        L_{\vu, \vv} := \{\vu + t\vv : t\in\RR\},
+    \]
+    where
+    \[
+        \vu=\begin{bmatrix}
+            u_1\\u_2
+        \end{bmatrix},\quad
+        \vv=\begin{bmatrix}
+            v_1\\v_2
+        \end{bmatrix}\in\RR^2,\quad 
+        \vv\neq \vzero=\begin{bmatrix}
+            0\\0
+        \end{bmatrix}. 
+    \]
+
+    Note that $\vu=\vu + 0\vv\in L_{\vu, \vv}$.
+
+    $L_{\vu, \vv}$ is called the line through $\vu$ with \underline{direction vector} $\vv$.
+    
+    \begin{itemize}
+        \item $\vu'\in L_{\vu, \vv} \Longrightarrow L_{\vu', \vv}=L_{\vu', \vv}$
+        \item $\vv'=c\vv,\; c\in\RR,\; c\neq 0 \Longrightarrow L_{\vu, \vv'}=L_{\vu, \vv}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Lines in $\RR^2$: Half-planes; sides; normal vectors}
+
+
+    \underline{Dot product}:
+    \[
+        \vu\cdot\vv = \begin{bmatrix}
+            u_1\\u_2
+        \end{bmatrix}\cdot\begin{bmatrix}
+            v_1\\v_2
+        \end{bmatrix} = u_1 v_1 + u_2 v_2\in\RR
+    \]
+    $\vu$ and $\vv$ are \underline{orthogonal} or \underline{perpendicular}.
+
+    $\vw$ is a \underline{normal vector} to $L_{\vu, \vv}$ if $\vv\cdot\vw = 0$.
+    
+    
+\end{frame}
+
+\begin{frame}{Lines in $\RR^2$: Half-planes and sides}
+    If you delete a line, $L$, from $\RR^2$, you're left with two \underline{half-planes} called the \underline{sides} of $L$.
+
+    If $\vw$ is a nonzero normal vector to $L_{\vu, \vv}$, then the sets
+    \[
+        H_{\vu, \vw}^- =
+        \{\vx : \vw\cdot(\vx - \vu) < 0\}
+        \quad\text{and}\quad
+        H_{\vu, \vw}^+ = \{\vx : \vw\cdot(\vx - \vu) > 0\}
+    \]
+    are the sides of $L_{\vu, \vv}$.
+
+    The normal vector $\vw$, plotted with its tail on $L_{\vu, \vv}$, points into $H_{\vu, \vw}^+$.
+\end{frame}
+
+\begin{frame}{Linear separation}
+    Let
+    \[
+        D=\big\{(\vx_1, y_1), (\vx_2, y_2),\ldots, (\vx_n, y_n)\big\}
+    \]
+    be a dataset, where $\vx_i\in \RR^2$ and $y_i\in \{-1, 1\}$.
+
+    Let
+    \[
+        D^-=\big\{(\vx_i, y_i)\in D : y_i=-1\big\},
+        \quad
+        D^+=\big\{(\vx_i, y_i)\in D : y_i=+1\big\}
+    \]
+
+    Let $L$ be a line in $\RR^2$. We say that \underline{$L$ separates $D$} if $D^-$ and $D^+$
+    are contained in opposite sides of $L$.
+
+    We say that $D$ is \underline{linearly separable} if there is a line $L$ that separates $D$.
+\end{frame}
+
+\begin{frame}{}
+
+    \textbf{Not all datasets are linearly separable:} The dataset
+    \[
+        D := \Big\{\big((0, 0), 0\big), \big((1, 0), 1\big), 
+        \big((1, 1), 0\big), \big((0, 1), 1\big) \Big\}
+    \]
+    is not linearly separable.
+
+    \textbf{Linear separators need not be unique:} The linear separators of
+    \[
+        D := \Big\{\big((0, -1\big), 0), \big((0, 1), 1\big) \Big\}
+    \]
+    are precisely the lines
+    \[
+        y=mx+b,\quad b\in (-1, 1).
+    \]
+
+
+    
+\end{frame}
+
+\begin{frame}{Finding linear separators}
+    \textbf{Problem:}
+    Given a dataset, $D$, find a vector $\vu$ and a nonzero vector $\vw$
+    such that
+    \[
+        D\cap H_{\vu, \vw}^+ = D^+
+        \quad\text{and}\quad
+        D\cap H_{\vu, \vw}^- = D^-
+    \]
+    or show that no such $\vu$ and $\vw$ exist.
+
+    We'll begin by analyzing a special case:
+
+    \textbf{Special case:} Given a dataset $D$, find a nonzero vector $\vw$
+    such that
+    \[
+        D\cap H_{\vzero, \vw}^+ = D^+
+        \quad\text{and}\quad
+        D\cap H_{\vzero, \vw}^- = D^-
+    \]
+    $L_{\vzero, \vw}$ does \textbf{not} separate $D$ if and only if
+    \[
+        D^-\cap H_{\vzero, \vw}^+\neq\varnothing
+        \quad\text{or}\quad
+        D^+\cap H_{\vzero, \vw}^-\neq\varnothing,
+    \]
+    ...
+\end{frame}
+
+\begin{frame}{}
+    
+    ...or, equivalently, if and only if
+    \[
+        \Big(y_i = -1\quad\text{and}\quad \vw\cdot\vx_i >0\Big)
+        \quad\text{or}\quad
+        \Big(y_i = +1\quad\text{and}\quad \vw\cdot\vx_i <0\Big)
+    \]
+    for some $i$, or, equivalently, if and only if
+    \[
+        y_i (\vw\cdot\vx_i) <0
+    \]
+    for some $i$, or, equivalently, if and only if
+    \[
+        \min(y_i (\vw\cdot\vx_i), 0) < 0
+    \]
+    for some $i$, or, equivalently,
+    \[
+        \sum_i\min(y_i (\vw\cdot\vx_i), 0) < 0,
+    \]
+    or, equivalently, if and only if
+    \[
+        \sum_i\max(-y_i (\vw\cdot\vx_i), 0) > 0.
+    \]
+\end{frame}
+
+\begin{frame}
+    View the term
+    \[
+        L(\vw, \vx_i, y_i) :=\max(-y_i(\vw\cdot\vx_i), 0)
+    \]
+    as a \textbf{penalty} or \textbf{loss} for $\vx_i$ being misclassified by $\vw$,
+    i.e., lying on the wrong side of the line through $\vzero$ normal to $\vw$.
+
+    Assume $\vx_i$ is correctly classified, then
+    \[
+        \Big(y_i = -1\quad\text{and}\quad \vw\cdot\vx_i <0\Big)
+        \quad\text{or}\quad
+        \Big(y_i = +1\quad\text{and}\quad \vw\cdot\vx_i >0\Big),
+    \]
+    in which case $y_i(\vw\cdot\vx_i)>0$ and 
+    \[
+         -y_i(\vw\cdot\vx_i) < 0.
+    \]
+    Thus, the penalty assessed for $\vx_i$ being misclassified by $\vw$
+    is
+    \[
+        L(\vw, \vx_i, y_i) = \max(-y_i(\vw\cdot\vx_i), 0) = 0,
+    \]
+    appropriate since, by hypothesis, $\vx_i$ is classified correctly!
+\end{frame}
+
+\begin{frame}{}
+    Conversely, Assume $\vx_i$ is correctly classified, then
+    \[
+        \Big(y_i = -1\quad\text{and}\quad \vw\cdot\vx_i >0\Big)
+        \quad\text{or}\quad
+        \Big(y_i = +1\quad\text{and}\quad \vw\cdot\vx_i <0\Big),
+    \]
+    in which case $y_i(\vw\cdot\vx_i)<0$ and 
+    \[
+         -y_i(\vw\cdot\vx_i) > 0.
+    \]
+    Thus, the penalty assessed for $\vx_i$ being misclassified by $\vw$
+    is strictly positive:
+    \[
+        L(\vw, \vx_i, y_i) = \max(-y_i(\vw\cdot\vx_i), 0) > -y_i(\vw\cdot\vx_i).
+    \]
+    Define the \textbf{cost} associated with $\vw$ by
+    \[
+        C(D, \vw) = \sum_i L(\vw, \vx_i, y_i)
+        = \sum_i \max(-y_i(\vw\cdot\vx_i), 0).
+    \]
+    Then $L(\vw)$ separates $D$ if and only if \[C(D, \vw)=0.\]
+\end{frame}
+
+\begin{frame}{General case}
+    \begin{align*}
+        L(\vu, \vw, \vx_i, y_i) &=\sum_i \max(-y_i(\vw\cdot(\vx_i - \vu)), 0)\\
+        \\
+        C(D, \vu, \vw) &= \sum_i L(\vu, \vw, \vx_i, y_i)\\
+        &=\sum_i \max(-y_i(\vw\cdot(\vx_i - \vu)), 0)
+    \end{align*}
+
+    Find
+    \[
+        \Argmin_{\vu, \vw} C(D, \vu, \vw)
+    \]
+\end{frame}
+
+
+\end{document}
