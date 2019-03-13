@@ -1,6 +1,11 @@
 \documentclass{beamer}
 
-\usepackage{graphicx}
+\usepackage{graphicx, algpseudocode, algorithm}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
 
 \input{../../../../texmacros/commands.tex}
 
@@ -14,6 +19,7 @@
 \usetheme{Madrid}
 
 \DeclareMathOperator{\RSS}{RSS}
+\DeclareMathOperator{\sign}{sign}
 \DeclareMathOperator*{\Argmin}{argmin}
 \DeclareMathOperator*{\Argmax}{argmax}
 
@@ -244,9 +250,123 @@
 
     Find
     \[
-        \Argmin_{\vu, \vw} C(D, \vu, \vw)
+        \Argmin_{\vu, \vw} C(D, \vu, \vw).
     \]
 \end{frame}
 
+\begin{frame}{The Perceptron Algorithm}
+    \[
+        D=\big\{(\vx_1, y_1), (\vx_2, y_2),\ldots, (\vx_n, y_n)\big\}
+    \]
+    Suppose that $D$ is linearly separable, i.e.,
+    that there is unit vector a $\vw\in\RR^n$ such that
+    \[
+        \sign(\vw\cdot \vx_i) = y_i
+    \]
+    for all $i$, or, equivalently, that
+    \[
+        y_i(\vw\cdot \vx_i) > 0
+    \]
+    for all $i$.
+\end{frame}
 
+% \begin{frame}{}
+%     Define a sequence $\vw_0,\vw_1,\ldots$ of vectors in $\RR^n$ by:
+%     \begin{algorithmic}[1]
+%         \State $\vw_0 \gets \vzero$
+%         \While{blah}
+%         blah
+%         \EndWhile
+%     \end{algorithmic}
+    
+%     \begin{itemize}
+%         \item $\vw_0 = \vzero$
+%         \item while $y_i(\vw_k\cdot \vx_i) \leq 0$ for some $i$:
+%         \item 
+%     \end{itemize}
+% \end{frame}
+
+\begin{frame}{}
+    Define a sequence $\vw_0,\vw_1,\ldots$ of vectors in $\RR^n$ by:
+    \begin{algorithm}[H]
+        \caption{The Perceptron Algorithm}
+    \begin{algorithmic}[1]
+        \State $k \gets 0$
+        \State $\vw_0 \gets \vzero$
+        \Repeat
+            \State $k \gets k + 1$
+            \State $i_k\gets \min\{i : y_i(\vw_{k-1}\cdot \vx_i) \leq 0\}$
+            \State $\vw_k \gets \vw_{k-1} + y_{i_k}\vx_{i_k}$
+        \Until{$y_i(\vw_k\cdot \vx_i) > 0$ for all $i$}
+    \end{algorithmic}
+\end{algorithm}
+Note that $i_1=1$.
+
+\textbf{Theorem:} (Rosenblatt, 1957)
+The perceptron algorithm terminates after $k<R^2/r^2$ steps.
+\end{frame}
+
+\begin{frame}{}
+    \textbf{Proof:} Let $k$ be such that $y_{i_k}(\vw_{k-1}\cdot\vx_{i_k})\leq 0$.
+
+    Lower bound on $\|\vw_k\|^2$:
+
+    Set
+    \[
+        R = \max_i\|\vx_i\|>0.
+    \]
+
+    \vspace{-2em}\begin{align*}
+        \|\vw_k\|^2 &= \|\vw_{k-1} + y_{i_k}\vx_{i_k}\|^2\\
+        &= \|\vw_{k-1}\|^2 + \|\vx_{i_k}\|^2 + 2y_{i_k}(\vw_{k-1}\cdot\vx_{i_k})\\
+        &\geq \|\vw_{k-1}\|^2 + \|\vx_{i_k}\|^2\\
+        &\geq \|\vw_{k-1}\|^2 + R^2\\
+        &\geq \|\vw_{k-2}\|^2 + 2R^2\\
+        &\;\;\vdots\\
+        &\geq \|\vw_0\|^2 + kR^2\\
+        &= kR^2
+    \end{align*}
+\end{frame}
+
+\begin{frame}{}
+    Upper bound on $\|\vw_k\|^2$:
+ 
+    Set
+    \[
+        r = \min_i |\vw\cdot \vx_i|>0.
+    \]
+
+    \vspace{-2em}\begin{align*}
+        \vu\cdot \vw_k &= \vu\cdot(\vw_{k-1} + y_{i_k}\vx_{i_k})\\
+        &= \vu\cdot \vw_{k-1} + y_{i_k}(\vu\cdot \vx_{i_k})\\
+        &\geq \vu\cdot \vw_{k-1} + r\\
+        &\geq \vu\cdot \vw_{k-2} + 2r\\
+        &\;\;\vdots\\
+        &\geq \vu\cdot\vw_0 + kr\\
+        &= kr
+    \end{align*}
+
+    \vspace{-2em}\[
+        kr\leq \vu\cdot\vw_k\leq \|\vu\|\|\vw_k\| = \|\vw_k\|
+    \]
+
+    \vspace{-2em}\[
+        k^2r^2\leq \|\vw_k\|^2
+    \]
+\end{frame}
+
+\begin{frame}{}
+    \[
+        k^2r^2\leq \|\vw_k\|^2\leq kR^2
+    \]
+
+    \[
+        kr^2\leq \|\vw_k\|^2\leq R^2
+    \]
+
+    \[
+        k\leq \frac{R^2}{r^2}
+    \]
+    
+\end{frame}
 \end{document}
