@@ -1,0 +1,13 @@
+\documentclass[crop,tikz]{standalone}
+
+\usetikzlibrary{calc}
+
+\newcommand{\rad}{1.5}
+
+\begin{document}
+    \begin{tikzpicture}
+        \draw[thick, ->] (0, 0) -- ({2*\rad}, 0);
+        \draw[thick, fill=blue!10] (0,0) circle (\rad);
+        \node at (0, 0) {$1=a^{[\ell]}_0$};
+    \end{tikzpicture}
+\end{document}

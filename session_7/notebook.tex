@@ -1,0 +1,818 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{tf\_keras\_tutorial}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{Tensorflow/Keras Tutorial}\label{tensorflowkeras-tutorial}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{k+kn}{from} \PY{n+nn}{\PYZus{}\PYZus{}future\PYZus{}\PYZus{}} \PY{k}{import} \PY{n}{absolute\PYZus{}import}\PY{p}{,} \PY{n}{division}\PY{p}{,} \PY{n}{print\PYZus{}function}
+         \PY{k+kn}{import} \PY{n+nn}{tensorflow} \PY{k}{as} \PY{n+nn}{tf}
+         \PY{k+kn}{from} \PY{n+nn}{tensorflow} \PY{k}{import} \PY{n}{keras}
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\end{Verbatim}
+
+
+    \subsubsection{Sequential networks;
+layers}\label{sequential-networks-layers}
+
+\begin{itemize}
+\tightlist
+\item
+  A \textbf{feed-forward} or \textbf{sequential} neural network is
+  constructed using the \texttt{tf.keras.Sequential} class construtor.
+  It takes a list of \textbf{layers} as input. The last layer in the
+  list is the output layer. The rest are hidden layers.
+\item
+  Layers are defined in the \texttt{tf.layers.keras} module.
+\item
+  In a \textbf{dense} layer, a unit is connected with every unit in the
+  previous layer.
+\item
+  The first layer in a sequential network is responsible for specifying
+  the dimension of the data, i.e., the number of columns of the data
+  matrix, in the \texttt{input\_dim} keyword argument.
+\item
+  A sequential model stores its list of layers in its \texttt{layers}
+  attribute.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{n}{model} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+             \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+             \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{p}{]}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Layers: }\PY{l+s+si}{\PYZob{}model.layers\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Layers: [<tensorflow.python.keras.layers.core.Dense object at 0x1a2d2b8a20>, <tensorflow.python.keras.layers.core.Dense object at 0x1a2d312518>]
+Model: "sequential\_7"
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Layer (type)                 Output Shape              Param \#   
+=================================================================
+dense\_10 (Dense)             (None, 3)                 9         
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+dense\_11 (Dense)             (None, 1)                 4         
+=================================================================
+Total params: 13
+Trainable params: 13
+Non-trainable params: 0
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+    \end{Verbatim}
+
+    \subsubsection{Weights}\label{weights}
+
+\begin{itemize}
+\tightlist
+\item
+  Weights associated to connections between units are initialized
+  randomly. Biases are initialized to zero.
+\item
+  Inspect the weights using the \texttt{get\_weights} method.
+\item
+  It returns a list of length \(2L\), \(L\) being the number of layers,
+  containing the weight matrices and bias vectors of each layer.
+\item
+  The weight matrix of dense layer \(\ell\) has size
+  \(p_{\ell - 1}\times p_\ell\), where \(p_\ell\) is the number of units
+  in the \(\ell\)-th layer.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{n}{w1}\PY{p}{,} \PY{n}{b1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b2} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{get\PYZus{}weights}\PY{p}{(}\PY{p}{)}
+         \PY{n}{model}\PY{o}{.}\PY{n}{set\PYZus{}weights}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{w1}\PY{p}{)}\PY{p}{,} \PY{n}{b1}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{w2}\PY{p}{)}\PY{p}{,} \PY{n}{b2}\PY{p}{]}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{get\PYZus{}weights}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{n}{model}\PY{o}{.}\PY{n}{set\PYZus{}weights}\PY{p}{(}\PY{p}{[}\PY{n}{w1}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{ones\PYZus{}like}\PY{p}{(}\PY{n}{b1}\PY{p}{)}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{ones\PYZus{}like}\PY{p}{(}\PY{n}{b2}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[array([[0., 0., 0.],
+       [0., 0., 0.]], dtype=float32), array([0., 0., 0.], dtype=float32), array([[0.],
+       [0.],
+       [0.]], dtype=float32), array([0.], dtype=float32)]
+
+    \end{Verbatim}
+
+    \subsubsection{Forward propagation;
+prediction}\label{forward-propagation-prediction}
+
+\begin{itemize}
+\tightlist
+\item
+  If \(W^{[\ell]}\), \(b^{[\ell]}\), and \(A_\ell\) are the weight
+  matrix, and bias vector and activation function of layer \(\ell\) and
+  \(a^{[\ell]}\) and \(a^{[\ell-1]}\) is the vector of activations of
+  layers \(\ell\) and \(\ell - 1\), then
+  \[a^{[\ell]} = A_\ell(a^{[\ell - 1]}W^{[\ell]} + b^{[\ell]}).\]
+\item
+  We define the activations of the input layer to be the input values,
+  themselves.
+\item
+  To propagate data through a network, use the \texttt{predict} method.
+\item
+  To check our understanding, we can do this manually.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}69}]:} \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{relu} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{activations}\PY{o}{.}\PY{n}{relu}
+         \PY{n}{sigmoid} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{activations}\PY{o}{.}\PY{n}{sigmoid}
+         
+         \PY{n}{w1}\PY{p}{,} \PY{n}{b1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b2} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{get\PYZus{}weights}\PY{p}{(}\PY{p}{)}
+         \PY{n}{a0} \PY{o}{=} \PY{n}{X}
+         \PY{n}{a1} \PY{o}{=} \PY{n}{relu}\PY{p}{(}\PY{n}{a0}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{w1}\PY{p}{)} \PY{o}{+} \PY{n}{b1}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}
+         \PY{n}{a2} \PY{o}{=} \PY{n}{sigmoid}\PY{p}{(}\PY{n}{a1}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{w2}\PY{p}{)} \PY{o}{+} \PY{n}{b2}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{a2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[0.88107616]
+ [0.755816  ]
+ [0.73215616]
+ [0.90062785]
+ [0.8907727 ]
+ [0.8384137 ]
+ [0.80517995]
+ [0.7444783 ]
+ [0.74619466]
+ [0.7786551 ]]
+tf.Tensor(
+[[0.88107616]
+ [0.75581599]
+ [0.7321562 ]
+ [0.90062782]
+ [0.89077264]
+ [0.83841366]
+ [0.80517999]
+ [0.74447825]
+ [0.7461947 ]
+ [0.77865512]], shape=(10, 1), dtype=float64)
+
+    \end{Verbatim}
+
+    \subsubsection{Exercise}\label{exercise}
+
+\begin{itemize}
+\tightlist
+\item
+  Encode this 1-layer neural network with sigmoid activation as a Keras
+  sequential model. Set the weights and bias as indicated.
+\item
+  Predict the values for \((0, 0)\), \((1, 0)\), \((0, 1)\), and
+  \((1, 1)\).
+\end{itemize}
+
+    \subsubsection{Exercise}\label{exercise}
+
+\begin{itemize}
+\tightlist
+\item
+  Encode this 2-layer neural network as a Keras sequential model. Set
+  the weights and bias as indicated.
+\item
+  Predict the values for \((0, 0)\), \((1, 0)\), \((0, 1)\), and
+  \((1, 1)\).
+\end{itemize}
+
+    \subsubsection{Training}\label{training}
+
+\begin{itemize}
+\tightlist
+\item
+  In practice we don't assign weights; the network \textbf{learns} the
+  weights from \textbf{training data}.
+\item
+  Given a data point \((\boldsymbol{x}, y)\), can feed
+  \(\boldsymbol{x}\) into the network which returns a quantity
+  \(\widehat y\).
+\item
+  Error in approimating of \(y\) by \(\widehat y\) is encoded in a
+  \textbf{loss function} \(L(y, \widehat{y})\).
+\item
+  Which loss function to use is part of the design of your machine
+  learning algorithm. It is not intrinsic to the neural network; you
+  must provide it to the \texttt{compile} method.
+\item
+  By \textbf{backpropagating} this error through the network,
+  \texttt{tensorflow} systematically adjusts the weights and biases to
+  reduce the error. Specity the \textbf{optimizer}, the numerical
+  algorithm used to adjust the weights and biases, as the
+  \texttt{optimizer} argument of the model's \texttt{compile} method.
+\item
+  A training loop can makes multiple passes over the training date. Each
+  pass through an \textbf{epoch}. Specify the number of training epochs
+  to the \texttt{compile} method as the \texttt{epochs} argument.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}154}]:} \PY{n}{model} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+              \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+              \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                        \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sgd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                        \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{y\PYZus{}p} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+          
+          \PY{n}{loss\PYZus{}should\PYZus{}be} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{losses}\PY{o}{.}\PY{n}{binary\PYZus{}crossentropy}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{y\PYZus{}p}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The cross entropy loss should be: }\PY{l+s+si}{\PYZob{}loss\PYZus{}should\PYZus{}be\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{h} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[3.1560889  2.34395599]] [1] 
+
+The cross entropy loss should be: [0.10912164]
+
+1/1 [==============================] - 0s 80ms/sample - loss: 0.1091 - accuracy: 1.0000
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}166}]:} \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+          \PY{n}{expected\PYZus{}training\PYZus{}accuracy} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{predict\PYZus{}classes}\PY{p}{(}\PY{n}{X}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{==} \PY{n}{y}\PY{p}{)}\PY{o}{/}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Expected training accuracy: }\PY{l+s+si}{\PYZob{}expected\PYZus{}training\PYZus{}accuracy\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Expected training accuracy: 0.6
+
+20/20 [==============================] - 0s 55us/sample - loss: 0.6967 - accuracy: 0.6000
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}166}]:} <tensorflow.python.keras.callbacks.History at 0x1a374b8ba8>
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}217}]:} \PY{n}{n\PYZus{}train} \PY{o}{=} \PY{l+m+mi}{10000}
+          \PY{n}{n\PYZus{}test} \PY{o}{=} \PY{l+m+mi}{1000}
+          \PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{n\PYZus{}train}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{n\PYZus{}test}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{logical\PYZus{}not}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{logical\PYZus{}xor}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{1}
+          \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{logical\PYZus{}not}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{logical\PYZus{}xor}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{1}
+          \PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{X\PYZus{}train} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{n\PYZus{}train}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{X\PYZus{}test} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{n\PYZus{}test}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ro}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+          
+          \PY{n}{model} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+              \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+              \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                        \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sgd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                        \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train on 10000 samples, validate on 1000 samples
+Epoch 1/30
+10000/10000 [==============================] - 0s 39us/sample - loss: 0.6891 - accuracy: 0.4972 - val\_loss: 0.6848 - val\_accuracy: 0.5100
+Epoch 2/30
+10000/10000 [==============================] - 0s 21us/sample - loss: 0.6829 - accuracy: 0.5297 - val\_loss: 0.6786 - val\_accuracy: 0.5540
+Epoch 3/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6769 - accuracy: 0.5712 - val\_loss: 0.6724 - val\_accuracy: 0.5860
+Epoch 4/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6710 - accuracy: 0.6040 - val\_loss: 0.6665 - val\_accuracy: 0.6180
+Epoch 5/30
+10000/10000 [==============================] - 0s 21us/sample - loss: 0.6653 - accuracy: 0.6312 - val\_loss: 0.6609 - val\_accuracy: 0.6420
+Epoch 6/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6599 - accuracy: 0.6496 - val\_loss: 0.6555 - val\_accuracy: 0.6690
+Epoch 7/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6546 - accuracy: 0.6708 - val\_loss: 0.6503 - val\_accuracy: 0.6880
+Epoch 8/30
+10000/10000 [==============================] - 0s 21us/sample - loss: 0.6496 - accuracy: 0.7066 - val\_loss: 0.6454 - val\_accuracy: 0.7310
+Epoch 9/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6448 - accuracy: 0.7554 - val\_loss: 0.6406 - val\_accuracy: 0.7740
+Epoch 10/30
+10000/10000 [==============================] - 0s 21us/sample - loss: 0.6403 - accuracy: 0.7910 - val\_loss: 0.6361 - val\_accuracy: 0.8040
+Epoch 11/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6361 - accuracy: 0.8182 - val\_loss: 0.6319 - val\_accuracy: 0.8280
+Epoch 12/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6320 - accuracy: 0.8376 - val\_loss: 0.6278 - val\_accuracy: 0.8440
+Epoch 13/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6282 - accuracy: 0.8541 - val\_loss: 0.6239 - val\_accuracy: 0.8580
+Epoch 14/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.6244 - accuracy: 0.8662 - val\_loss: 0.6202 - val\_accuracy: 0.8690
+Epoch 15/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6208 - accuracy: 0.8778 - val\_loss: 0.6166 - val\_accuracy: 0.8830
+Epoch 16/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6174 - accuracy: 0.8884 - val\_loss: 0.6131 - val\_accuracy: 0.8910
+Epoch 17/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6140 - accuracy: 0.8957 - val\_loss: 0.6096 - val\_accuracy: 0.8970
+Epoch 18/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6106 - accuracy: 0.9006 - val\_loss: 0.6062 - val\_accuracy: 0.9030
+Epoch 19/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.6073 - accuracy: 0.9054 - val\_loss: 0.6028 - val\_accuracy: 0.9080
+Epoch 20/30
+10000/10000 [==============================] - 0s 22us/sample - loss: 0.6040 - accuracy: 0.9090 - val\_loss: 0.5994 - val\_accuracy: 0.9140
+Epoch 21/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.6007 - accuracy: 0.9126 - val\_loss: 0.5960 - val\_accuracy: 0.9200
+Epoch 22/30
+10000/10000 [==============================] - 0s 24us/sample - loss: 0.5974 - accuracy: 0.9161 - val\_loss: 0.5926 - val\_accuracy: 0.9190
+Epoch 23/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.5941 - accuracy: 0.9196 - val\_loss: 0.5892 - val\_accuracy: 0.9210
+Epoch 24/30
+10000/10000 [==============================] - 0s 25us/sample - loss: 0.5908 - accuracy: 0.9207 - val\_loss: 0.5857 - val\_accuracy: 0.9220
+Epoch 25/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.5875 - accuracy: 0.9235 - val\_loss: 0.5823 - val\_accuracy: 0.9250
+Epoch 26/30
+10000/10000 [==============================] - 0s 24us/sample - loss: 0.5841 - accuracy: 0.9254 - val\_loss: 0.5787 - val\_accuracy: 0.9260
+Epoch 27/30
+10000/10000 [==============================] - 0s 24us/sample - loss: 0.5806 - accuracy: 0.9274 - val\_loss: 0.5752 - val\_accuracy: 0.9250
+Epoch 28/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.5772 - accuracy: 0.9283 - val\_loss: 0.5716 - val\_accuracy: 0.9270
+Epoch 29/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.5737 - accuracy: 0.9283 - val\_loss: 0.5680 - val\_accuracy: 0.9280
+Epoch 30/30
+10000/10000 [==============================] - 0s 23us/sample - loss: 0.5702 - accuracy: 0.9290 - val\_loss: 0.5644 - val\_accuracy: 0.9320
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}217}]:} <tensorflow.python.keras.callbacks.History at 0x1a3c316da0>
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}218}]:} \PY{n}{y\PYZus{}p} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict\PYZus{}classes}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+          \PY{n+nb}{sum}\PY{p}{(}\PY{n}{y\PYZus{}p} \PY{o}{==} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{o}{/}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y\PYZus{}p}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}218}]:} 0.932
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}219}]:} \PY{n}{U} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{v} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict\PYZus{}classes}\PY{p}{(}\PY{n}{U}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{U}\PY{p}{[}\PY{n}{v} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{U}\PY{p}{[}\PY{n}{v} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ro}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{U}\PY{p}{[}\PY{n}{v} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{U}\PY{p}{[}\PY{n}{v} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Exercise}\label{exercise}
+
+Build a network that can recognize this pattern
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}222}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,} \PY{n}{h}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val\PYZus{}loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,} \PY{n}{h}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,}  \PY{n}{h}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val\PYZus{}accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,} \PY{n}{h}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Exercise}\label{exercise}
+
+\begin{itemize}
+\tightlist
+\item
+  Construct a sequential neural network that can learn the pattern
+  depicted below.
+\item
+  Experiment with numbers of layers, numbers of units in each layer,
+  optimizer (\texttt{optimizer="rmsprop"}) typically works well), etc.
+\item
+  Note any interesting misclassification patterns you find.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}239}]:} \PY{c+c1}{\PYZsh{} Here\PYZsq{}s how to generate data like this:}
+          \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{2}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{10}
+          \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{X} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mf}{0.4}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+509
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}235}]:} \PY{n}{model} \PY{o}{=} \PY{n}{tf}\PY{o}{.}\PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{)}
+          \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{input\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+          \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+          \PY{n}{model}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+          \PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                        \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rmsprop}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{c+c1}{\PYZsh{} work here}
+                        \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train on 13107 samples, validate on 3277 samples
+Epoch 1/30
+13107/13107 [==============================] - 1s 50us/sample - loss: 0.6879 - accuracy: 0.5698 - val\_loss: 0.6792 - val\_accuracy: 0.6140
+Epoch 2/30
+13107/13107 [==============================] - 0s 29us/sample - loss: 0.6646 - accuracy: 0.6683 - val\_loss: 0.6508 - val\_accuracy: 0.6155
+Epoch 3/30
+13107/13107 [==============================] - 0s 27us/sample - loss: 0.6284 - accuracy: 0.6913 - val\_loss: 0.6150 - val\_accuracy: 0.7391
+Epoch 4/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.5912 - accuracy: 0.7258 - val\_loss: 0.5821 - val\_accuracy: 0.7070
+Epoch 5/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.5607 - accuracy: 0.7370 - val\_loss: 0.5576 - val\_accuracy: 0.7376
+Epoch 6/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.5372 - accuracy: 0.7441 - val\_loss: 0.5381 - val\_accuracy: 0.7327
+Epoch 7/30
+13107/13107 [==============================] - 0s 30us/sample - loss: 0.5168 - accuracy: 0.7565 - val\_loss: 0.5186 - val\_accuracy: 0.7556
+Epoch 8/30
+13107/13107 [==============================] - 0s 27us/sample - loss: 0.4984 - accuracy: 0.7743 - val\_loss: 0.5018 - val\_accuracy: 0.7647
+Epoch 9/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.4823 - accuracy: 0.7820 - val\_loss: 0.4875 - val\_accuracy: 0.7666
+Epoch 10/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.4673 - accuracy: 0.7901 - val\_loss: 0.4754 - val\_accuracy: 0.7843
+Epoch 11/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.4534 - accuracy: 0.7976 - val\_loss: 0.4615 - val\_accuracy: 0.7855
+Epoch 12/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.4393 - accuracy: 0.8043 - val\_loss: 0.4492 - val\_accuracy: 0.7934
+Epoch 13/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.4250 - accuracy: 0.8155 - val\_loss: 0.4348 - val\_accuracy: 0.8020
+Epoch 14/30
+13107/13107 [==============================] - 0s 30us/sample - loss: 0.4098 - accuracy: 0.8231 - val\_loss: 0.4193 - val\_accuracy: 0.8135
+Epoch 15/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.3934 - accuracy: 0.8305 - val\_loss: 0.4027 - val\_accuracy: 0.8233
+Epoch 16/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.3743 - accuracy: 0.8404 - val\_loss: 0.3831 - val\_accuracy: 0.8355
+Epoch 17/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.3530 - accuracy: 0.8515 - val\_loss: 0.3627 - val\_accuracy: 0.8413
+Epoch 18/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.3321 - accuracy: 0.8602 - val\_loss: 0.3446 - val\_accuracy: 0.8486
+Epoch 19/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.3140 - accuracy: 0.8676 - val\_loss: 0.3286 - val\_accuracy: 0.8608
+Epoch 20/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.2978 - accuracy: 0.8762 - val\_loss: 0.3130 - val\_accuracy: 0.8685
+Epoch 21/30
+13107/13107 [==============================] - 0s 29us/sample - loss: 0.2817 - accuracy: 0.8820 - val\_loss: 0.2931 - val\_accuracy: 0.8737
+Epoch 22/30
+13107/13107 [==============================] - 0s 29us/sample - loss: 0.2639 - accuracy: 0.8893 - val\_loss: 0.2738 - val\_accuracy: 0.8798
+Epoch 23/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.2407 - accuracy: 0.8972 - val\_loss: 0.2445 - val\_accuracy: 0.8901
+Epoch 24/30
+13107/13107 [==============================] - 0s 28us/sample - loss: 0.1917 - accuracy: 0.9192 - val\_loss: 0.1608 - val\_accuracy: 0.9371
+Epoch 25/30
+13107/13107 [==============================] - 0s 29us/sample - loss: 0.1392 - accuracy: 0.9525 - val\_loss: 0.1329 - val\_accuracy: 0.9530
+Epoch 26/30
+13107/13107 [==============================] - 0s 30us/sample - loss: 0.1230 - accuracy: 0.9587 - val\_loss: 0.1251 - val\_accuracy: 0.9509
+Epoch 27/30
+13107/13107 [==============================] - 0s 29us/sample - loss: 0.1161 - accuracy: 0.9611 - val\_loss: 0.1215 - val\_accuracy: 0.9554
+Epoch 28/30
+13107/13107 [==============================] - 0s 29us/sample - loss: 0.1120 - accuracy: 0.9617 - val\_loss: 0.1200 - val\_accuracy: 0.9518
+Epoch 29/30
+13107/13107 [==============================] - 0s 30us/sample - loss: 0.1082 - accuracy: 0.9623 - val\_loss: 0.1146 - val\_accuracy: 0.9567
+Epoch 30/30
+13107/13107 [==============================] - 0s 30us/sample - loss: 0.1056 - accuracy: 0.9611 - val\_loss: 0.1117 - val\_accuracy: 0.9545
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}235}]:} <tensorflow.python.keras.callbacks.History at 0x1a3d2e6f98>
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}232}]:} \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{y} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict\PYZus{}classes}\PY{p}{(}\PY{n}{X}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{y} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{n}{y} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{y} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{n}{y} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ro}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}232}]:} []
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
