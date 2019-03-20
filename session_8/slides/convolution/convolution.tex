@@ -1,0 +1,153 @@
+\documentclass[crop,tikz,border=10]{standalone}
+\usetikzlibrary{calc}
+
+\begin{document}
+
+% {3, 1, 4, 1, 5, 9}, {2, 6, 5, 3, 5, 8}, {9, 7, 9, 3, 2, 3}, 
+% {8, 4, 6, 2, 6, 4}, {3, 3, 8, 3, 2, 7}, {9, 5, 0, 2, 8, 8}
+
+% {{2, 7, 1}, {8, 2, 8}, {1, 8, 2}}
+\def\testarray{
+    {{{3, 1, 4, 1, 5, 9}, {2, 6, 5, 3, 5, 8}, {9, 7, 9, 3, 2, 3}, 
+    {8, 4, 6, 2, 6, 4}, {3, 3, 8, 3, 2, 7}, {9, 5, 0, 2, 8, 8}}}
+}
+\def\conv{
+    {{{2, 7, 1}, {8, 2, 8}, {1, 8, 2}}}
+}
+
+\def\ans{
+    {{{85, 95, 96}, {78, 84, 84}}}
+}
+\begin{tikzpicture}
+\pgfmathsetmacro{\a}{0.95}
+
+\matrix[column sep=10, row sep=10] {
+    \draw[fill=yellow!40] (0, 0) rectangle (\a*3, -\a*3 );
+    \foreach \x in {0, 1, 2, 3, 4}{
+        \foreach \y in {0, 1, 2, 3}{
+            \pgfmathsetmacro{\z}{\testarray[\x][\y]}
+            \draw (\a*\x, -\a*\y) %node[above right] {\z} 
+            rectangle ({\a*(\x + 1)}, {-\a*(\y + 1)});
+            \node at ({\a*(\x + 0.5)}, {-\a*(\y + 0.5)}) {\z};
+        }; 
+}; 
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1, 2}{
+            \pgfmathsetmacro{\z}{\conv[\x][\y]}
+            \node at ({\a*(\x)}, {-\a*(\y + 0.5)}) [right, red] {{\footnotesize $+$}};
+            \node at ({\a*(\x + 1)}, {-\a*(\y + 1)}) [above left, blue] {{\footnotesize $\times \z$}};
+        }; 
+};
+\draw[fill=yellow!40, yellow!40] (\a*0.25, {-\a*0.5}) circle (0.12);
+%
+&
+\draw[fill=yellow!40] (\a*1, 0) rectangle (\a*4, -\a*3 );
+\foreach \x in {0, 1, 2, 3, 4}{
+        \foreach \y in {0, 1, 2, 3}{
+            \pgfmathsetmacro{\z}{\testarray[\x][\y]}
+            \draw (\a*\x, -\a*\y) %node[above right] {\z} 
+            rectangle ({\a*(\x + 1)}, {-\a*(\y + 1)});
+            \node at ({\a*(\x + 0.5)}, {-\a*(\y + 0.5)}) {\z};
+        }; 
+};
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1, 2}{
+            \pgfmathsetmacro{\z}{\conv[\x][\y]}
+            \node at ({\a*(\x + 1)}, {-\a*(\y + 0.5)}) [right, red] {{\footnotesize $+$}};
+            \node at ({\a*(\x + 2)}, {-\a*(\y + 1)}) [above left, blue] {{\footnotesize $\times \z$}};
+        }; 
+};
+\draw[fill=yellow!40, yellow!40] (\a*1.25, {-\a*0.5}) circle (0.12);  &
+\draw[fill=yellow!40] (\a*2, 0) rectangle (\a*5, -\a*3 );
+\foreach \x in {0, 1, 2, 3, 4}{
+        \foreach \y in {0, 1, 2, 3}{
+            \pgfmathsetmacro{\z}{\testarray[\x][\y]}
+            \draw (\a*\x, -\a*\y) %node[above right] {\z} 
+            rectangle ({\a*(\x + 1)}, {-\a*(\y + 1)});
+            \node at ({\a*(\x + 0.5)}, {-\a*(\y + 0.5)}) {\z};
+        }; 
+};
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1, 2}{
+            \pgfmathsetmacro{\z}{\conv[\x][\y]}
+            \node at ({\a*(\x + 2)}, {-\a*(\y + 0.5)}) [right, red] {{\footnotesize $+$}};
+            \node at ({\a*(\x + 3)}, {-\a*(\y + 1)}) [above left, blue] {{\footnotesize $\times \z$}};
+        }; 
+};
+\draw[fill=yellow!40, yellow!40] (\a*2.25, {-\a*0.5}) circle (0.12);
+\\
+\draw[fill=yellow!40] (0, -1*\a) rectangle (\a*3, -\a*4 );
+    \foreach \x in {0, 1, 2, 3, 4}{
+        \foreach \y in {0, 1, 2, 3}{
+            \pgfmathsetmacro{\z}{\testarray[\x][\y]}
+            \draw (\a*\x, -\a*\y) %node[above right] {\z} 
+            rectangle ({\a*(\x + 1)}, {-\a*(\y + 1)});
+            \node at ({\a*(\x + 0.5)}, {-\a*(\y + 0.5)}) {\z};
+        }; 
+};
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1, 2}{
+            \pgfmathsetmacro{\z}{\conv[\x][\y]}
+            \node at ({\a*(\x)}, {-\a*(\y + 1.5)}) [right, red] {{\footnotesize $+$}};
+            \node at ({\a*(\x + 1)}, {-\a*(\y + 2)}) [above left, blue] {{\footnotesize $\times \z$}};
+        }; 
+};
+\draw[fill=yellow!40, yellow!40] (\a*0.25, {-\a*1.5}) circle (0.12);
+&
+\draw[fill=yellow!40] (\a*1, -1*\a) rectangle (\a*4, -\a*4 );
+\foreach \x in {0, 1, 2, 3, 4}{
+        \foreach \y in {0, 1, 2, 3}{
+            \pgfmathsetmacro{\z}{\testarray[\x][\y]}
+            \draw (\a*\x, -\a*\y) %node[above right] {\z} 
+            rectangle ({\a*(\x + 1)}, {-\a*(\y + 1)});
+            \node at ({\a*(\x + 0.5)}, {-\a*(\y + 0.5)}) {\z};
+        }; 
+};
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1, 2}{
+            \pgfmathsetmacro{\z}{\conv[\x][\y]}
+            \node at ({\a*(\x + 1)}, {-\a*(\y + 1.5)}) [right, red] {{\footnotesize $+$}};
+            \node at ({\a*(\x + 2)}, {-\a*(\y + 2)}) [above left, blue] {{\footnotesize $\times \z$}};
+        }; 
+};
+\draw[fill=yellow!40, yellow!40] (\a*1.25, {-\a*1.5}) circle (0.12);
+&
+\draw[fill=yellow!40] (\a*2, -1*\a) rectangle (\a*5, -\a*4 );
+\foreach \x in {0, 1, 2, 3, 4}{
+        \foreach \y in {0, 1, 2, 3}{
+            \pgfmathsetmacro{\z}{\testarray[\x][\y]}
+            \draw (\a*\x, -\a*\y) %node[above right] {\z} 
+            rectangle ({\a*(\x + 1)}, {-\a*(\y + 1)});
+            \node at ({\a*(\x + 0.5)}, {-\a*(\y + 0.5)}) {\z};
+        }; 
+};
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1, 2}{
+            \pgfmathsetmacro{\z}{\conv[\x][\y]}
+            \node at ({\a*(\x + 2)}, {-\a*(\y + 1.5)}) [right, red] {{\footnotesize $+$}};
+            \node at ({\a*(\x + 3)}, {-\a*(\y + 2)}) [above left, blue] {{\footnotesize $\times \z$}};
+        }; 
+};
+\draw[fill=yellow!40, yellow!40] (\a*2.25, {-\a*1.5}) circle (0.12);
+\\
+&
+\foreach \x in {0, 1, 2}{
+        \foreach \y in {0, 1}{
+            \pgfmathsetmacro{\z}{\ans[\y][\x]}
+            \draw ({\a*(\x + 1)}, {-\a*(\y + 1)}) %node[above right] {\z} 
+            rectangle ({\a*(\x + 2)}, {-\a*(\y + 2)});
+            \node at ({\a*(\x + 1.5)}, {-\a*(\y + 1.5)}) {\z};
+        }; 
+};
+\\
+};
+\end{tikzpicture}
+
+% \def\testarray{{1,2}}
+% \def\circleHeights{{0.5,2}}
+% \begin{tikzpicture}
+% \draw[help lines,step=.5](0,0)grid(3,3);
+% \foreach \i in {0,1}
+%   \filldraw[black] (\testarray[\i],\circleHeights[\i]) circle[radius=1pt];
+% \end{tikzpicture}
+\end{document}
